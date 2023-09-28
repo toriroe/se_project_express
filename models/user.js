@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema({
     maxLength: 20,
     required: true,
   },
-  image: {
+  avatar: {
     type: String,
     validate: {
       validator(value) {
