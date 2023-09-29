@@ -1,6 +1,6 @@
 const ClothingItem = require("../models/clothingItem");
-const { OK, CREATED } = require("../utils/errors");
-const { handleItemHttpError } = require("../utils/errorHandlers");
+const { CREATED } = require("../utils/errors");
+const { handleHttpError } = require("../utils/errorHandlers");
 
 const createItem = (req, res) => {
   const owner = req.user._id;
@@ -11,15 +11,15 @@ const createItem = (req, res) => {
       res.status(CREATED).send({ data: item });
     })
     .catch((err) => {
-      handleItemHttpError(req, res, err);
+      handleHttpError(req, res, err);
     });
 };
 
 const getItems = (req, res) => {
   ClothingItem.find({})
-    .then((items) => res.status(OK).send(items))
+    .then((items) => res.send(items))
     .catch((err) => {
-      handleItemHttpError(req, res, err);
+      handleHttpError(req, res, err);
     });
 };
 
@@ -28,24 +28,9 @@ const deleteItem = (req, res) => {
 
   ClothingItem.findByIdAndRemove(itemId)
     .orFail()
-    .then((item) => res.status(OK).send(item))
+    .then((item) => res.send(item))
     .catch((err) => {
-      handleItemHttpError(req, res, err);
-    });
-};
-
-const updateItem = (req, res) => {
-  const { itemId } = req.params;
-  const { imageUrl } = req.body;
-  ClothingItem.findByIdAndUpdate(
-    itemId,
-    { $set: { imageUrl } },
-    { new: true, runValidators: true },
-  )
-    .orFail()
-    .then((item) => res.status(OK).send({ data: item }))
-    .catch((err) => {
-      handleItemHttpError(req, res, err);
+      handleHttpError(req, res, err);
     });
 };
 
@@ -59,7 +44,7 @@ const likeItem = (req, res) => {
     .orFail()
     .then((item) => res.status(CREATED).send({ data: item }))
     .catch((err) => {
-      handleItemHttpError(req, res, err);
+      handleHttpError(req, res, err);
     });
 };
 
@@ -71,9 +56,9 @@ const unlikeItem = (req, res) => {
     { new: true },
   )
     .orFail()
-    .then((item) => res.status(OK).send({ data: item }))
+    .then((item) => res.send({ data: item }))
     .catch((err) => {
-      handleItemHttpError(req, res, err);
+      handleHttpError(req, res, err);
     });
 };
 
@@ -81,7 +66,6 @@ module.exports = {
   createItem,
   getItems,
   deleteItem,
-  updateItem,
   likeItem,
   unlikeItem,
 };

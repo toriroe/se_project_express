@@ -1,7 +1,7 @@
 const User = require("../models/user");
-const { OK, CREATED } = require("../utils/errors");
+const { CREATED } = require("../utils/errors");
 
-const { handleUserHttpError } = require("../utils/errorHandlers");
+const { handleHttpError } = require("../utils/errorHandlers");
 
 const createUser = (req, res) => {
   const { name, avatar } = req.body;
@@ -11,15 +11,15 @@ const createUser = (req, res) => {
       res.status(CREATED).send({ data: user });
     })
     .catch((err) => {
-      handleUserHttpError(req, res, err);
+      handleHttpError(req, res, err);
     });
 };
 
 const getUsers = (req, res) => {
   User.find({})
-    .then((users) => res.status(OK).send(users))
+    .then((users) => res.send(users))
     .catch((err) => {
-      handleUserHttpError(req, res, err);
+      handleHttpError(req, res, err);
     });
 };
 
@@ -27,9 +27,9 @@ const getUser = (req, res) => {
   const { userId } = req.params;
   User.findById(userId)
     .orFail()
-    .then((user) => res.status(OK).send({ data: user }))
+    .then((user) => res.send({ data: user }))
     .catch((err) => {
-      handleUserHttpError(req, res, err);
+      handleHttpError(req, res, err);
     });
 };
 
