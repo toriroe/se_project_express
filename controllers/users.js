@@ -3,7 +3,13 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const User = require("../models/user");
-const { CREATED, DUPLICATE_EMAIL, UNAUTHORIZED } = require("../utils/errors");
+const {
+  CREATED,
+  DUPLICATE_EMAIL,
+  UNAUTHORIZED,
+  NOT_FOUND,
+  FORBIDDEN,
+} = require("../utils/errors");
 const { JWT_SECRET } = require("../utils/config");
 
 const { handleHttpError } = require("../utils/errorHandlers");
@@ -61,4 +67,43 @@ const login = (req, res) => {
     });
 };
 
-module.exports = { createUser, getUsers, getUser, login };
+const getCurrentUser = (req, res) => {
+  const { _id: userId } = req.user;
+
+  User.findById(userId)
+    .then((user) => {
+      if (!user) {
+        res.status(NOT_FOUND).send({ message: "User not found" });
+      }
+      res.send(user);
+    })
+    .catch((err) => {
+      handleHttpError(req, res, err);
+    });
+};
+
+const updateUser = (req, res) => {
+  const { name, avatar } = req.body;
+  const userId = req.user._id;
+
+  User.findByIdAndUpdate(
+    userId,
+    { name, avatar },
+    { new: true, runValidators: true },
+  )
+    .then((user) => {
+      res.send({ data: user });
+    })
+    .catch((err) => {
+      handleHttpError(req, res, err);
+    });
+};
+
+module.exports = {
+  createUser,
+  getUsers,
+  getUser,
+  login,
+  getCurrentUser,
+  updateUser,
+};

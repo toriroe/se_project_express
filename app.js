@@ -12,12 +12,7 @@ const app = express();
 
 const { PORT = 3001 } = process.env;
 
-app.use((req, res, next) => {
-  req.user = {
-    _id: "6514c9e60e1eea25cf8a822d",
-  };
-  next();
-});
+const cors = require("cors");
 
 app.listen(PORT, () => {
   console.log(`App listening at port ${PORT}`);
@@ -37,3 +32,4 @@ app.use(express.json());
 app.use(routes);
 app.use(rateLimit());
 app.use(helmet());
+app.use(cors());

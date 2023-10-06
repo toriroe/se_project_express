@@ -25,13 +25,20 @@ const getItems = (req, res) => {
 
 const deleteItem = (req, res) => {
   const { itemId } = req.params;
+  const userId = req.user._id;
 
-  ClothingItem.findByIdAndRemove(itemId)
-    .orFail()
-    .then((item) => res.send(item))
-    .catch((err) => {
-      handleHttpError(req, res, err);
-    });
+  ClothingItem.findById(itemId).then((item) => {
+    if (userId !== item.owner) {
+      return res.status(FORBIDDEN).send({ message: "Access denied" });
+    } else {
+      ClothingItem.findByIdAndRemove(itemId)
+        .orFail()
+        .then((item) => res.send(item))
+        .catch((err) => {
+          handleHttpError(req, res, err);
+        });
+    }
+  });
 };
 
 const likeItem = (req, res) => {

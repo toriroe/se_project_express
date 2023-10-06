@@ -1,9 +1,4 @@
-const {
-  BAD_REQUEST,
-  NOT_FOUND,
-  SERVER_ERROR,
-  DUPLICATE_EMAIL,
-} = require("./errors");
+const { BAD_REQUEST, NOT_FOUND, SERVER_ERROR } = require("./errors");
 
 const handleHttpError = (req, res, err) => {
   if (err.name === "ValidationError") {
