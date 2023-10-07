@@ -23,7 +23,7 @@ const createUser = (req, res) => {
       bcrypt.hash(password, 10).then((hash) => {
         User.create({ name, avatar, email, password: hash })
           .then((user) => {
-            res.status(CREATED).send({ data: user });
+            res.status(CREATED).send({ name, avatar, email, _id: user._id });
           })
           .catch((err) => {
             console.error(err, "error from createUser");
@@ -63,7 +63,7 @@ const login = (req, res) => {
       res.send({ token });
     })
     .catch((err) => {
-      res.status(UNAUTHORIZED).send({ message: err.message });
+      handleHttpError(req, res, err);
     });
 };
 

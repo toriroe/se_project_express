@@ -10,11 +10,11 @@ const {
   unlikeItem,
 } = require("../controllers/clothingItems");
 
-// Create item
-router.post("/", handleAuthorization, createItem);
-
 // Read item
 router.get("/", getItems);
+
+// Create item
+router.post("/", handleAuthorization, createItem);
 
 // Delete item
 router.delete("/:itemId", handleAuthorization, deleteItem);
