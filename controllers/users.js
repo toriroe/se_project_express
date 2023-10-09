@@ -1,4 +1,4 @@
-const bcrypt = require("bcryptjs");
+const bcryptjs = require("bcryptjs");
 
 const jwt = require("jsonwebtoken");
 
@@ -20,7 +20,7 @@ const createUser = (req, res) => {
     if (emailFound) {
       res.status(DUPLICATE_EMAIL).send({ message: "Email already exists" });
     } else {
-      bcrypt.hash(password, 10).then((hash) => {
+      bcryptjs.hash(password, 10).then((hash) => {
         User.create({ name, avatar, email, password: hash })
           .then((user) => {
             res.status(CREATED).send({ name, avatar, email, _id: user._id });

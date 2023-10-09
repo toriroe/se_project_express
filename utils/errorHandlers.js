@@ -6,6 +6,7 @@ const {
 } = require("./errors");
 
 const handleHttpError = (req, res, err) => {
+  console.error(err);
   if (err.name === "ValidationError") {
     res.status(BAD_REQUEST).send({
       message:
