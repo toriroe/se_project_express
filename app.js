@@ -7,7 +7,7 @@ const { rateLimit } = require("express-rate-limit");
 const helmet = require("helmet");
 
 const app = express();
-
+7;
 const { PORT = 3001 } = process.env;
 
 const cors = require("cors");

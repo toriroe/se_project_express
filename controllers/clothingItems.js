@@ -1,5 +1,5 @@
 const ClothingItem = require("../models/clothingItem");
-const { CREATED } = require("../utils/errors");
+const { CREATED, FORBIDDEN } = require("../utils/errors");
 const { handleHttpError } = require("../utils/errorHandlers");
 
 const createItem = (req, res) => {
@@ -31,7 +31,7 @@ const deleteItem = (req, res) => {
     .orFail()
     .then((item) => {
       console.log(item);
-      if (userId !== item.owner) {
+      if (userId !== item.owner.toString()) {
         return res.status(FORBIDDEN).send({ message: "Access denied" });
       } else {
         ClothingItem.findByIdAndRemove(itemId)

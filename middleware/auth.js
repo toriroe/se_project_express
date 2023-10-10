@@ -15,13 +15,13 @@ module.exports.handleAuthorization = (req, res, next) => {
   let payload;
 
   try {
-    payload = jwt.verify(token, { JWT_SECRET });
+    payload = jwt.verify(token, JWT_SECRET);
   } catch (err) {
     console.error(err);
     return res.status(UNAUTHORIZED).send({ message: "Invalid Token" });
   }
 
-  req.user = paylaod;
+  req.user = payload;
 
   next();
 };
