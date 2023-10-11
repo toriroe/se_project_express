@@ -1,9 +1,4 @@
-const {
-  BAD_REQUEST,
-  NOT_FOUND,
-  SERVER_ERROR,
-  UNAUTHORIZED,
-} = require("./errors");
+const { BAD_REQUEST, NOT_FOUND, SERVER_ERROR } = require("./errors");
 
 const handleHttpError = (req, res, err) => {
   console.error(err);
@@ -20,8 +15,6 @@ const handleHttpError = (req, res, err) => {
         req.params.userId ? req.params.userId : req.params.itemId
       } not found`,
     });
-  } else if (err.message === "Incorrect email or password") {
-    res.status(UNAUTHORIZED).send({ message: "Incorrect email or password" });
   } else {
     res
       .status(SERVER_ERROR)

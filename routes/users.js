@@ -1,12 +1,6 @@
 const router = require("express").Router();
 
-const {
-  createUser,
-  getUsers,
-  getUser,
-  getCurrentUser,
-  updateUser,
-} = require("../controllers/users");
+const { getCurrentUser, updateUser } = require("../controllers/users");
 
 const { handleAuthorization } = require("../middleware/auth");
 

@@ -3,7 +3,6 @@ const itemRouter = require("./clothingItems");
 const userRouter = require("./users");
 const { createUser, login } = require("../controllers/users");
 const { NOT_FOUND } = require("../utils/errors");
-const { application } = require("express");
 
 router.use("/items", itemRouter);
 router.use("/users", userRouter);

@@ -33,14 +33,16 @@ const deleteItem = (req, res) => {
       console.log(item);
       if (userId !== item.owner.toString()) {
         return res.status(FORBIDDEN).send({ message: "Access denied" });
-      } else {
-        ClothingItem.findByIdAndRemove(itemId)
-          .orFail()
-          .then((item) => res.send(item))
-          .catch((err) => {
-            handleHttpError(req, res, err);
-          });
       }
+      return ClothingItem.findByIdAndRemove(itemId)
+        .orFail()
+        .then((removedItem) => res.send(removedItem))
+        .catch((err) => {
+          handleHttpError(req, res, err);
+        });
+    })
+    .catch((err) => {
+      handleHttpError(req, res, err);
     });
 };
 
