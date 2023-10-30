@@ -23,7 +23,12 @@ const createUser = (req, res) => {
         bcrypt.hash(password, 10).then((hash) => {
           User.create({ name, avatar, email, password: hash })
             .then((user) => {
-              res.status(CREATED).send({ name, avatar, email, _id: user._id });
+              const token = jwt.sign({ _id: user.id }, JWT_SECRET, {
+                expiresIn: "7d",
+              });
+              res
+                .status(CREATED)
+                .send({ name, avatar, email, _id: user._id, token });
             })
             .catch((err) => {
               console.error(err, "error from createUser");
@@ -63,7 +68,7 @@ const login = (req, res) => {
       const token = jwt.sign({ _id: user.id }, JWT_SECRET, {
         expiresIn: "7d",
       });
-      res.send({ token });
+      res.send({ user, token });
     })
     .catch((err) => {
       res.status(UNAUTHORIZED).send({ message: err.message });
