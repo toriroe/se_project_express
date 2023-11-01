@@ -42,24 +42,6 @@ const createUser = (req, res) => {
     });
 };
 
-// const getUsers = (req, res) => {
-//   User.find({})
-//     .then((users) => res.send(users))
-//     .catch((err) => {
-//       handleHttpError(req, res, err);
-//     });
-// };
-
-// const getUser = (req, res) => {
-//   const { userId } = req.params;
-//   User.findById(userId)
-//     .orFail()
-//     .then((user) => res.send({ data: user }))
-//     .catch((err) => {
-//       handleHttpError(req, res, err);
-//     });
-// };
-
 const login = (req, res) => {
   const { email, password } = req.body;
 

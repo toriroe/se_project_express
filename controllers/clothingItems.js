@@ -30,7 +30,6 @@ const deleteItem = (req, res) => {
   ClothingItem.findById(itemId)
     .orFail()
     .then((item) => {
-      console.log(item);
       if (userId !== item.owner.toString()) {
         return res.status(FORBIDDEN).send({ message: "Access denied" });
       }
