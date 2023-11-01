@@ -1,15 +1,10 @@
 const express = require("express");
-
 const { default: mongoose } = require("mongoose");
-
 const { rateLimit } = require("express-rate-limit");
-
 const helmet = require("helmet");
 
 const app = express();
-
 const { PORT = 3001 } = process.env;
-
 const cors = require("cors");
 
 app.listen(PORT, () => {
@@ -28,6 +23,6 @@ const routes = require("./routes");
 
 app.use(express.json());
 app.use(cors());
-// app.use(rateLimit());
+app.use(rateLimit());
 app.use(helmet());
 app.use(routes);
