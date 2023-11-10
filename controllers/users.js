@@ -13,7 +13,6 @@ const createUser = (req, res, next) => {
   User.findOne({ email })
     .then((emailFound) => {
       if (emailFound) {
-        // res.status(DUPLICATE_EMAIL).send({ message: "Email already exists" });
         throw new ConflictError("Email already exists");
       } else {
         bcrypt.hash(password, 10).then((hash) => {
@@ -50,7 +49,6 @@ const getCurrentUser = (req, res, next) => {
   User.findById(userId)
     .then((user) => {
       if (!user) {
-        // res.status(NOT_FOUND).send({ message: "User not found" });
         throw new NotFoundError("No user with matching ID found");
       }
       res.status(200).send(user);
