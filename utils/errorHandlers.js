@@ -1,4 +1,4 @@
-const { BAD_REQUEST, NOT_FOUND, SERVER_ERROR } = require("./errors");
+// const { BAD_REQUEST, NOT_FOUND, SERVER_ERROR } = require("./errors");
 
 const handleHttpError = (req, res, err) => {
   console.error(err);
