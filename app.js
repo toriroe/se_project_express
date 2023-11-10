@@ -3,6 +3,8 @@ const { default: mongoose } = require("mongoose");
 const { rateLimit } = require("express-rate-limit");
 const helmet = require("helmet");
 
+const errorHandler = require("./middleware/error-handler");
+
 const app = express();
 const { PORT = 3001 } = process.env;
 const cors = require("cors");
@@ -26,3 +28,4 @@ app.use(cors());
 // app.use(rateLimit());
 app.use(helmet());
 app.use(routes);
+app.use(errorHandler);

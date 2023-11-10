@@ -10,7 +10,7 @@ router.use("/users", userRouter);
 router.post("/signin", login);
 router.post("/signup", createUser);
 
-router.use((req, res) => {
+router.use((req, res, next) => {
   res.status(NOT_FOUND).send({ message: "Router not found" });
 });
 
