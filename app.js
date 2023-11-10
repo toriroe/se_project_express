@@ -5,6 +5,7 @@ const helmet = require("helmet");
 
 const errorHandler = require("./middleware/error-handler");
 const { errors } = require("celebrate");
+const { requestLogger, errorLogger } = require("./middleware/logger");
 
 const app = express();
 const { PORT = 3001 } = process.env;
@@ -28,6 +29,8 @@ app.use(express.json());
 app.use(cors());
 // app.use(rateLimit());
 app.use(helmet());
+app.use(requestLogger);
 app.use(routes);
+app.use(errorLogger);
 app.use(errors());
 app.use(errorHandler);
