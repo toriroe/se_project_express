@@ -1,12 +1,18 @@
 # SE Project Express
 
-This project focused on creating the first stages of a back end for the previous sprint's project: "WTWR: What to Wear" React app. It's a server that is responsible for handling HTTP requests that interact with a database in order to add, read, delete, like, and unlike clothing items, as well as add and read users.
+This project is the back for the "WTWR: What to Wear" React app project. It's an API that is responsible for routing HTTP requests that interact with a database in order to add/update users, and read, add, delete, like, and unlike clothing items.
+
+Authorization middleware is implemented for verifying tokens upon returning to the site after previously being logged in. Middelware for centralized error handling and logging is also used.
+
+It is currently being deployed and hosted on Google Cloud. Site is encrypted with an SSL certificate via certbot.
 
 ## Technologies Used
 
-This is a Node.js app using Express.js framework. This framework was used to create the server, routes, and handle HTTP requests.
-Mongoose was used to interact with a MongoDB database to manage data. Validator.js is used to validate the avatar and imageUrl fields in the user and clothing item schemas respectively, ensuring that the URLs given for each are valid.
+- This is a Node.js app using Express.js framework
+- Mongoose is used to interact with a MongoDB database
+- pm2 process manager is used to keep app running continuously
+- nginx for port configuration/redirecting requests
 
-## Plans to improve project
+## Link
 
-Will connect the back end to front-end WTWR React app so that users can interact with the app to add, remove, and like clothing items that will be saved in a database. Plan to implement user authorization in future sprints.
+[Link to site](https://wtwr.mnode.net/)
