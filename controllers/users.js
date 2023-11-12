@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
-const { JWT_SECRET } = require("../utils/config");
+const { NODE_ENV, JWT_SECRET } = process.env;
 
 const NotFoundError = require("../errors/not-found-error");
 const ConflictError = require("../errors/conflict-error");
@@ -17,9 +17,13 @@ const createUser = (req, res, next) => {
       } else {
         bcrypt.hash(password, 10).then((hash) => {
           User.create({ name, avatar, email, password: hash }).then((user) => {
-            const token = jwt.sign({ _id: user.id }, JWT_SECRET, {
-              expiresIn: "7d",
-            });
+            const token = jwt.sign(
+              { _id: user.id },
+              NODE_ENV === "production" ? JWT_SECRET : "dev-secret",
+              {
+                expiresIn: "7d",
+              },
+            );
             res.status(201).send({ name, avatar, email, _id: user._id, token });
           });
         });
