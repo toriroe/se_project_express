@@ -45,6 +45,7 @@ const login = (req, res, next) => {
       res.status(200).send({ user, token });
     })
     .catch((err) => {
+      console.error(err);
       next(new UnauthorizedError("Error from login"));
     });
 };
@@ -75,6 +76,7 @@ const updateUser = (req, res, next) => {
       res.status(200).send({ data: user });
     })
     .catch((err) => {
+      console.error(err);
       next(new BadRequestError("Error from updateUser"));
     });
 };

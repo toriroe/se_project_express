@@ -13,6 +13,7 @@ const createItem = (req, res, next) => {
       res.status(201).send({ data: item });
     })
     .catch((err) => {
+      console.error(err);
       next(new BadRequestError("Error from createItem"));
     });
 };
