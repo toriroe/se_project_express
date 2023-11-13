@@ -12,9 +12,7 @@ const createItem = (req, res, next) => {
     .then((item) => {
       res.status(201).send({ data: item });
     })
-    .catch((err) => {
-      next(new BadRequestError("Error from createItem"));
-    });
+    .catch(next(new BadRequestError("Error from createItem")));
 };
 
 const getItems = (req, res, next) => {

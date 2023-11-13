@@ -1,17 +1,17 @@
 require("dotenv").config();
 
 const express = require("express");
+
 const { default: mongoose } = require("mongoose");
-const { rateLimit } = require("express-rate-limit");
 const helmet = require("helmet");
 
-const errorHandler = require("./middleware/error-handler");
 const { errors } = require("celebrate");
-const { requestLogger, errorLogger } = require("./middleware/logger");
 
 const app = express();
 const { PORT = 3001 } = process.env;
 const cors = require("cors");
+const errorHandler = require("./middleware/error-handler");
+const { requestLogger, errorLogger } = require("./middleware/logger");
 
 app.listen(PORT, () => {
   console.log(`App listening at port ${PORT}`);

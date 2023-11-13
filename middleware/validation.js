@@ -1,6 +1,21 @@
 const { Joi, celebrate } = require("celebrate");
 const validator = require("validator");
 
+// validate user and clothing item IDs when they are accessed
+const validateId = celebrate({
+  params: Joi.object().keys({
+    itemId: Joi.string().hex().length(24),
+  }),
+});
+
+// validate URLs for avatars and item images
+const validateUrl = (value, helpers) => {
+  if (validator.isURL(value)) {
+    return value;
+  }
+  return helpers.error("string.uri");
+};
+
 // validate clothing item body when an item is created
 const validateItemBody = celebrate({
   body: Joi.object().keys({
@@ -9,7 +24,7 @@ const validateItemBody = celebrate({
       "string.max": 'The maximum length of the "name" field is 30',
       "string.empty": 'The "name" field must be filled in',
     }),
-    imageUrl: Joi.string().required().custom(validateURL).messages({
+    imageUrl: Joi.string().required().custom(validateUrl).messages({
       "string.empty": 'The "imageUrl" field must be filled in',
       "string.uri": 'the "imageUrl" field must be a valid url',
     }),
@@ -24,7 +39,7 @@ const validateUserInfoBody = celebrate({
       "string.max": 'The maximum length of the "name" field is 30',
       "string.empty": 'The "name" field must be filled in',
     }),
-    avatar: Joi.string().required().custom(validateURL).messages({
+    avatar: Joi.string().required().custom(validateUrl).messages({
       "string.empty": 'The "avatar" field must be filled in',
       "string.uri": 'the "avatar" field must be a valid url',
     }),
@@ -50,21 +65,6 @@ const validateLoginAuthentication = celebrate({
     }),
   }),
 });
-
-// validate user and clothing item IDs when they are accessed
-const validateId = celebrate({
-  params: Joi.object().keys({
-    itemId: Joi.string().hex().length(24),
-  }),
-});
-
-// validate URLs for avatars and item images
-const validateURL = (value, helpers) => {
-  if (validator.isURL(value)) {
-    return value;
-  }
-  return helpers.error("string.uri");
-};
 
 module.exports = {
   validateItemBody,

@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
+
 const { JWT_SECRET = "SECRET_KEY" } = process.env;
 
 const NotFoundError = require("../errors/not-found-error");
@@ -43,9 +44,7 @@ const login = (req, res, next) => {
       });
       res.status(200).send({ user, token });
     })
-    .catch((err) => {
-      next(new UnauthorizedError("Error from login"));
-    });
+    .catch(next(new UnauthorizedError("Error from login")));
 };
 
 const getCurrentUser = (req, res, next) => {
@@ -73,9 +72,7 @@ const updateUser = (req, res, next) => {
     .then((user) => {
       res.status(200).send({ data: user });
     })
-    .catch((err) => {
-      next(new BadRequestError("Error from updateUser"));
-    });
+    .catch(next(new BadRequestError("Error from updateUser")));
 };
 
 module.exports = {
