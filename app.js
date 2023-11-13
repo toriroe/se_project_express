@@ -39,7 +39,6 @@ const routes = require("./routes");
 
 app.use(express.json());
 app.use(cors());
-// app.use(rateLimit());
 app.use(helmet());
 app.use(requestLogger);
 app.use(routes);
