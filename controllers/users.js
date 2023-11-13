@@ -44,7 +44,9 @@ const login = (req, res, next) => {
       });
       res.status(200).send({ user, token });
     })
-    .catch(next(new UnauthorizedError("Error from login")));
+    .catch((err) => {
+      next(new UnauthorizedError("Error from login"));
+    });
 };
 
 const getCurrentUser = (req, res, next) => {
@@ -72,7 +74,9 @@ const updateUser = (req, res, next) => {
     .then((user) => {
       res.status(200).send({ data: user });
     })
-    .catch(next(new BadRequestError("Error from updateUser")));
+    .catch((err) => {
+      next(new BadRequestError("Error from updateUser"));
+    });
 };
 
 module.exports = {
