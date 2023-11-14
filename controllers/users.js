@@ -16,19 +16,34 @@ const createUser = (req, res, next) => {
       if (emailFound) {
         throw new ConflictError("Email already exists");
       } else {
-        bcrypt.hash(password, 10).then((hash) => {
-          User.create({ name, avatar, email, password: hash }).then((user) => {
-            const token = jwt.sign(
-              { _id: user.id },
-              JWT_SECRET,
+        bcrypt
+          .hash(password, 10)
+          .then((hash) => {
+            User.create({ name, avatar, email, password: hash })
+              .then((user) => {
+                const token = jwt.sign(
+                  { _id: user.id },
+                  JWT_SECRET,
 
-              {
-                expiresIn: "7d",
-              },
-            );
-            res.status(201).send({ name, avatar, email, _id: user._id, token });
+                  {
+                    expiresIn: "7d",
+                  },
+                );
+                res
+                  .status(201)
+                  .send({ name, avatar, email, _id: user._id, token });
+              })
+              .catch((err) => {
+                if (err.name === "ValidationError") {
+                  next(new BadRequestError("Validation Error"));
+                } else {
+                  next(err);
+                }
+              });
+          })
+          .catch((err) => {
+            next(err);
           });
-        });
       }
     })
     .catch(next);
@@ -42,7 +57,7 @@ const login = (req, res, next) => {
       const token = jwt.sign({ _id: user.id }, JWT_SECRET, {
         expiresIn: "7d",
       });
-      res.status(200).send({ user, token });
+      res.send({ token });
     })
     .catch((err) => {
       console.error(err);
@@ -51,14 +66,15 @@ const login = (req, res, next) => {
 };
 
 const getCurrentUser = (req, res, next) => {
-  const { _id: userId } = req.user;
+  // const { _id: userId } = req.user;
+  const userId = req.user._id;
 
   User.findById(userId)
     .then((user) => {
       if (!user) {
         throw new NotFoundError("No user with matching ID found");
       }
-      res.status(200).send(user);
+      res.send(user);
     })
     .catch(next);
 };
@@ -73,11 +89,15 @@ const updateUser = (req, res, next) => {
     { new: true, runValidators: true },
   )
     .then((user) => {
-      res.status(200).send({ data: user });
+      res.send({ data: user });
     })
     .catch((err) => {
       console.error(err);
-      next(new BadRequestError("Error from updateUser"));
+      if (err.name === "ValidationError") {
+        next(new BadRequestError("Error from updateUser"));
+      } else {
+        next(err);
+      }
     });
 };
 
