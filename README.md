@@ -1,4 +1,4 @@
-# 'What to Wear' Back-End
+# 'What to Wear' Back End
 
 This project is the back-end for the ["WTWR: What to Wear"](https://github.com/toriroe/se_project_react) Create React App project. It's an API that is responsible for routing HTTP requests that interact with a database in order to add/update users, and read, add, delete, like, and unlike clothing items.
 
